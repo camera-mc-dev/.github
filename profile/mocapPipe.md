@@ -17,6 +17,12 @@ bash cloneMocapRepos.sh
 
 For more details, see the documentation for [mc_core](https://github.com/camera-mc-dev/mc_core) and [mc_reconstruction](https://github.com/camera-mc-dev/mc_reconstruction), [mc_opensim](https://github.com/camera-mc-dev/mc_opensim)
 
+The following script _might_ do most of the work for you, assuming an Apt/Ubuntu based system:
+
+```bash
+python3 getMocapDeps.py
+```
+
 
 
 
