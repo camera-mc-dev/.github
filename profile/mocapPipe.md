@@ -25,11 +25,13 @@ python3 getMocapDeps.py
 
 
 
-
-
-
 ### Building
 
+Assuming everything is properly installed to standard locations:
+
+```bash
+scons mc_reconstruction/build/optimised/ -j8
+```
 
 ## Running on BioCV
 
