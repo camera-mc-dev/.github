@@ -16,6 +16,10 @@ The [mc_base](https://github.com/camera-mc-dev/mc_base) repository provides a co
   
 The repositories are fully documented and will detail the manual installation steps and how to use each tool.
 
+### Installation and running
+
+There are brief [instructions for installing and running the markeless pipeline using the BioCV dataset](mocapPipe.md), more detailed information about each part can be found in repository documentation.
+
 ## Machine Vision Capture tool
 
 In the unlikely event you too have a Silicon Software based machine vision system and want to use our capture tool, then we have made the software available in the [mc_grabber](https://github.com/camera-mc-dev/mc_grabber) repository.
