@@ -35,3 +35,55 @@ scons mc_reconstruction/build/optimised/ -j8
 
 ## Running on BioCV
 
+The general pipeline will be much the same for other datasets, but the BioCV dataset provides a good example. BioCV already supplies calibration, but here we will go through the process of calibration. After that, we can run the mocap pipeline.
+
+ 0) Calibrate dataset
+ 1) Run pose detectors
+ 2) Run 3D fusion processes
+ 3) Run OpenPose solvers
+
+This example will use the `P01_CMJM_01` trial from the BioCV dataset.
+
+### Common config file
+
+### Calibration
+
+### Pose detection
+
+The pose fusion process is agnostic to the type of pose detector you use, however the provided OpenSim tools are configured on the assumption of an OpenPose/COCO skeleton. The pose fusion processes are designed to load OpenPose style `.json` files, so keep that in mind if using other pose detectors. We have had success using `mmpose` as well as OpenPose, AlphaPose, etc.
+
+As an example, assuming the use of `OpenPose`, we can for example do:
+
+```bash
+# navigate to your openpose install
+cd /opt/software/openpose
+
+# run openpose to output .json for each camera - here's a command for camera 00
+./build/examples/openpose/openpose.bin \
+                -video /data2/biocv-final/P04/P04_CMJM_01/00.mp4 \
+                -write_json /data2/biocv-final/P04/P04_CMJM_01/openpose_output_00 \
+                -display 0 \
+                --render_pose 0 \
+                -num_gpu 1
+```
+
+### Pose fusion
+
+There are two tasks to run. The first is occupancy based pose tracking, this will "project" the detected poses into an occupancy map to identify the probable presence of people and resolve cross-camera detection associations, then track those people over time. The second task is to then reconstruct 3D pose for each person.
+
+#### Occupancy map based Tracking
+
+For this we use the tool `trackSparsePoses`. Get hold of a modify the appropriate configuration file, an [example of which](https://github.com/camera-mc-dev/mc_reconstruction/blob/master/configs/track-fuse.cfg) is available in the `mc_reconstruction` repository. The configuration file is heavily commented and should clearly detail the meaning of and importance of each setting.
+
+Once you have the config file set appropriately, you can run the two tools.
+
+```bash
+cd /data2/biocv-final/P04/P04_CMJM_01
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/trackSparsePoses track-fuse.cfg
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/fuseSparsePoses track-fuse.cfg
+```
+
+You should end up with a `.c3d` tracking file as your output.
+
+
+### OpenSim solvers
