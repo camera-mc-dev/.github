@@ -46,7 +46,24 @@ This example will use the `P01_CMJM_01` trial from the BioCV dataset.
 
 ### Common config file
 
+All the `mc_dev` tools can can make use of a common configuration file, which will identify the location of a few common datafiles, basic configuration settings, etc. The first time you run one of the tools you will probably get an error because you do not have this file, but a basic sample should get created in your home directory.
+
+Either way, create a file `~/.mc_dev.commong.cfg` which contains (adjust the paths accordingly):
+
+```bash
+dataRoot = "/path/to/where/you/keep/your/data";
+shadersRoot = "/path/to/mc_dev/mc_core/shaders;"
+coreDataRoot = "/path/to/mc_dev/mc_core/data;"
+scriptsRoot = "/path/to/mc_dev/mc_core/python;"
+netsRoot = "/path/to/mc_dev/mc_nets/data;"
+ffmpegPath = "/usr/bin/ffmpeg";
+maxSingleWindowWidth = 1200;
+maxSingleWindowHeight = 1000;
+```
+
 ### Calibration
+
+Full details of the [calibration procedure]() can be found in the `mc_core` documentation 
 
 ### Pose detection
 
