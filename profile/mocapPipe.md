@@ -124,20 +124,21 @@ There are two tasks to run. The first is occupancy based pose tracking, this wil
 
 #### Occupancy map based Tracking
 
-For this we use the tool `trackSparsePoses`. Get hold of a modify the appropriate configuration file, an [example of which](https://github.com/camera-mc-dev/mc_reconstruction/blob/master/configs/track-fuse.cfg) is available in the `mc_reconstruction` repository. The configuration file is heavily commented and should clearly detail the meaning of and importance of each setting.
+For this we use the tool `trackSparsePoses`. Get hold of a modify the appropriate configuration file, an [example of which](https://github.com/camera-mc-dev/mc_reconstruction/blob/master/configs/track-fuse.cfg) is available in the `mc_reconstruction` repository. The configuration file is heavily commented and should clearly detail the meaning of and importance of each setting. You will also need a configuration file describing the "skeleton" provided by the pose detector. There are examples for OpenPose and AlphaPose - we will use the OpenPose one here.
 
 ```bash
 cd ~/data/biocv-final/P03_CMJM_01
 cp /path/to/mc_dev/mc_reconstruction/configs/track-fuse.cfg .
+cp /path/to/mc_dev/mc_reconstruction/configs/open.skel.cfg ../
 ```
-Once the file is edited, we can run the tracking and then the fusion
+Once you have the config files and have suitably edited them, you can run the tools:
 
 ```
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/trackSparsePoses track-fuse.cfg
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/fuseSparsePoses track-fuse.cfg
 ```
 
-You should end up with a `.c3d` tracking file as your output.
+You should end up with a `.c3d` tracking file as your output at the location you specified in the config file.
 
 
 ### OpenSim solvers
