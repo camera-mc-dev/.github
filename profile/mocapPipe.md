@@ -95,6 +95,8 @@ cd ~/data/biocv-final/P03
 /path/to/mc_dev/mc_core/build/optimised/bin/manualAlignNetwork calib.cfg
 ```
 
+For troubleshooting and tools to test/visualise the calibration, see the full documentation of `mc_core`.
+
 NOTE: If you're using the BioCV dataset you will probably want to use the calibration files that come with it, as those have been painstakingly aligned to the best of our ability with the BioCV motion capture data. These instructions are mostly for relevance on other data.
 
 ### Pose detection
