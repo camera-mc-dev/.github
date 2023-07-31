@@ -42,7 +42,7 @@ The general pipeline will be much the same for other datasets, but the BioCV dat
  2) Run 3D fusion processes
  3) Run OpenPose solvers
 
-This example will use the `P01_CMJM_01` trial from the BioCV dataset.
+This example will use the `P03_CMJM_01` trial from the BioCV dataset.
 
 ### Common config file
 
@@ -63,7 +63,39 @@ maxSingleWindowHeight = 1000;
 
 ### Calibration
 
-Full details of the [calibration procedure]() can be found in the `mc_core` documentation 
+Full details of the [calibration procedure]() can be found in the `mc_core` documentation, but here is a reduced step-by-step. In practice, when using the BioCV dataset, you will use the already existing calibration files.
+
+The calibration videos are in the `P03/calib_00` trial. Copy the base camera calibration configuration file from the `mc_dev/data/baseConfigs`. So assuming you have the data under `~/data/biocv-final`:
+
+```bash
+cd ~/data/biocv-final/P03
+cp /path/to/mc_dev/mc_core/data/baseConfigs/calib.cfg .
+```
+Open the file for editing and set the `dataRoot`, `testRoot` and `imgDirs` (imgDirs can be directories under `/dataRoot/testRoot/` or can be video files). The default settings for the grid finder should be correct for the BioCV dataset. Disable `useExistingGrids`, disable `useSBA`, comment out `matchesFile`. 
+
+Run the calibration tool - this first run is primarily just to detect the grids, it will probably crash or do something silly after detection completes (lingering unfixed bug)
+
+```bash
+cd ~/data/biocv-final/P03
+/path/to/mc_dev/mc_core/build/optimised/bin/circleGridCamNetwork calib.cfg
+```
+After that, edit the config file to enable `useSBA` and `useExistingGrids`.
+
+Run the tool again. You now have a calibration, but the world coordinate system is not aligned to the floor plane. Edit the config file and uncomment the `matchesFile=matches`. `mc_dev` contains a tool for annotating points in the scene. At a minimum, you will need to annotate 3 points on the ground plane, the desired scene origin, a point on the world x-axis, and a point on the world y-axis.
+
+```bash
+cd ~/data/biocv-final/P03
+/path/to/mc_dev/mc_core/build/optimised/bin/pointMatcher calib.cfg
+```
+
+Once you have the matches, you can run the tool to align the world to the desired origin. 
+
+```bash
+cd ~/data/biocv-final/P03
+/path/to/mc_dev/mc_core/build/optimised/bin/manualAlignNetwork calib.cfg
+```
+
+NOTE: If you're using the BioCV dataset you will probably want to use the calibration files that come with it, as those have been painstakingly aligned to the best of our ability with the BioCV motion capture data. These instructions are mostly for relevance on other data.
 
 ### Pose detection
 
