@@ -126,10 +126,13 @@ There are two tasks to run. The first is occupancy based pose tracking, this wil
 
 For this we use the tool `trackSparsePoses`. Get hold of a modify the appropriate configuration file, an [example of which](https://github.com/camera-mc-dev/mc_reconstruction/blob/master/configs/track-fuse.cfg) is available in the `mc_reconstruction` repository. The configuration file is heavily commented and should clearly detail the meaning of and importance of each setting.
 
-Once you have the config file set appropriately, you can run the two tools.
-
 ```bash
-cd /data2/biocv-final/P04/P04_CMJM_01
+cd ~/data/biocv-final/P03_CMJM_01
+cp /path/to/mc_dev/mc_reconstruction/configs/track-fuse.cfg .
+```
+Once the file is edited, we can run the tracking and then the fusion
+
+```
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/trackSparsePoses track-fuse.cfg
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/fuseSparsePoses track-fuse.cfg
 ```
