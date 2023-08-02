@@ -176,7 +176,7 @@ Edit the config file then run the needed render tool:
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/compareMocap proj.cfg
 ```
 
-`projectMocap` and `compareMocap` are only mildly different. `projectMocap` will just project all the points in the input `.c3d` files without caring about such things as skeletons or whether the points are from different files. `compareMocap` will make require a skeleton file for each input `.c3d` file and will render lines as per that skeleton, and will give a different colour to the skeletons of different input files.
+`projectMocap` and `compareMocap` are only mildly different. `projectMocap` will just project all the points in the input `.c3d` files without caring about such things as skeletons or whether the points are from different files. `compareMocap` will require a skeleton file for each input `.c3d` file and will render lines as per that skeleton - skeletons of different input files will be drawn with different colours.
 
 
 
