@@ -52,10 +52,10 @@ Either way, create a file `~/.mc_dev.commong.cfg` which contains (adjust the pat
 
 ```bash
 dataRoot = "/path/to/where/you/keep/your/data";
-shadersRoot = "/path/to/mc_dev/mc_core/shaders;"
-coreDataRoot = "/path/to/mc_dev/mc_core/data;"
-scriptsRoot = "/path/to/mc_dev/mc_core/python;"
-netsRoot = "/path/to/mc_dev/mc_nets/data;"
+shadersRoot = "/path/to/mc_dev/mc_core/shaders";
+coreDataRoot = "/path/to/mc_dev/mc_core/data";
+scriptsRoot = "/path/to/mc_dev/mc_core/python";
+netsRoot = "/path/to/mc_dev/mc_nets/data";
 ffmpegPath = "/usr/bin/ffmpeg";
 maxSingleWindowWidth = 1200;
 maxSingleWindowHeight = 1000;
@@ -116,6 +116,26 @@ cd /opt/software/openpose
                 -display 0 \
                 --render_pose 0 \
                 -num_gpu 1
+```
+
+#### Visualising pose detections
+
+`mc_reconstruction` provides a tool to visualise the sparse pose detections - you probably already have that from your pose detector anyway, but it is useful for seeing that `mc_dev` is loading it the way you expect it to be loaded. The tool is called `renderSparsePoses`. You can either run it normal, or headless - if you run it headless you must specify the name of the output directory or video file you want to write output to. You will need to have a suitable skeleton configuration file that tells `mc_dev` the layout of keypoints from your detector. We provide examples for OpenPose.
+
+normal (renders to a window):
+
+```bash
+cd ~/data/biocv-final/P03_CMJM_01
+cp /path/to/mc_dev/mc_reconstruction/configs/open.skel.cfg ../
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/renderSparsePose 00.mp4 ../open.skel.cfg jsonDir openpose_output_00/
+```
+
+headless (render to video file):
+
+```bash
+cd ~/data/biocv-final/P03_CMJM_01
+cp /path/to/mc_dev/mc_reconstruction/configs/open.skel.cfg ../
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/renderSparsePose 00.mp4 ../open.skel.cfg jsonDir openpose_output_00/ op-render-00.mp4 
 ```
 
 ### Pose fusion
