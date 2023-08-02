@@ -183,10 +183,11 @@ Edit the config file then run the needed render tool:
 
 ### OpenSim solvers
 The OpenSim tools are mostly little python script wrappers.
-If you've not already done so, create a virtual environment, activate it, and install the python requirements:
+If you've not already done so, build and install OpenSim, create a virtual environment, activate it, and install the python requirements:
 
 ```bash
 cd /path/to/mc_dev/mc_opensim
+bash opensim-core-linux-build-script.sh -p /opt/opensim
 python3 -m venv venv --system-site-packages
 source venv/bin/activate
 python3 -m pip install update pip
