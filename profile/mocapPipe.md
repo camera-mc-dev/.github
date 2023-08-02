@@ -157,8 +157,28 @@ Once you have the config files and have suitably edited them, you can run the to
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/trackSparsePoses track-fuse.cfg
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/fuseSparsePoses track-fuse.cfg
 ```
-
 You should end up with a `.c3d` tracking file as your output at the location you specified in the config file.
+
+#### Visualising .c3d tracks
+
+The `.c3d` pose reconstructions (or indeed, `.c3d` mocap files from other sources) can be rendered onto the images using the tools `projectMocap` or `compareMocap`.
+
+As with `renderSparsePoses` both normal and headless rendering are possible.  A short config file is used to specify what to render, rather than have a long list of arugments. You can get a fully documented example config file from the `mc_reconstruction/configs` directory.
+
+```bash
+cd ~/data/biocv-final/P03_CMJM_01
+cp /path/to/mc_dev/mc_reconstruction/configs/proj.cfg .
+```
+Edit the config file then run the needed render tool:
+
+```bash
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/projectMocap proj.cfg
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/compareMocap proj.cfg
+```
+
+`projectMocap` and `compareMocap` are only mildly different. `projectMocap` will just project all the points in the input `.c3d` files without caring about such things as skeletons or whether the points are from different files. `compareMocap` will make require a skeleton file for each input `.c3d` file and will render lines as per that skeleton, and will give a different colour to the skeletons of different input files.
+
+
 
 
 ### OpenSim solvers
