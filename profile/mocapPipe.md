@@ -182,3 +182,44 @@ Edit the config file then run the needed render tool:
 
 
 ### OpenSim solvers
+The OpenSim tools are mostly little python script wrappers.
+If you've not already done so, create a virtual environment, activate it, and install the python requirements:
+
+```bash
+cd /path/to/mc_dev/mc_opensim
+python3 -m venv venv --system-site-packages
+source venv/bin/activate
+python3 -m pip install update pip
+python3 -m pip install -r requirements.txt
+```
+
+The OpenSim process consists of gap filling, smoothing, model scaling, and model fitting.
+
+Gap filling and smoothing _can_ be run for one or more files using:
+
+```bash
+python3 FillSmoothC3D.py  False <trans noise> <obs noise> < file00.c3d > [ file01.c3d] ... [ file##.c3d ] 
+```
+
+For example:
+
+```bash
+FillSmoothC3D.py  False -1 -1 ~/data/biocv-final/P03/P03_CMJM_01/op-recon/body-00.c3d
+```
+
+The noise parameters can be set to something specific, or set to negative values to automatically compute something appropriate.
+
+Mostly however the `mc_opensim` tools are used as a batch process. Edit the `config.py` file and the set the PATH to your dataset or a specific trial - the scripts will search for .c3d files beneath that path and process them. While editing the `config.py` file you can also prepare the configuration for the scaling and fitting processes.
+
+To scale the opensim model to the openpose data (or to any suitable .c3d point set) you will need to have a static trial - i.e. a trial where your subject stands still. In the event that you don't have such a thing, pick one of your trials where the person has a moment of standing still, and adjust the `SCALE_TIME_RANGE` to identify that moment of standing still. For our `biocv` dataset exampel, we can use the `P03_CMJM_01` data and just the first second before the subject jumps, so we set `STATIC_NAME = "CMJM_01"` and `SCALE_TIME_RANGE = [0, 1]`
+
+We can now run:
+```bash
+python3 FillSmoothC3D.py  True
+python3 TrcGenerator.py
+python3 BatchIK.py
+```
+
+To do filling and smoothing, then convert `.c3d` to `.trc` and then run OpenSim model fitting based on the settings in the config file.
+
+
