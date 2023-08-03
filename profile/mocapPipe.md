@@ -223,4 +223,12 @@ python3 BatchIK.py
 
 To do filling and smoothing, then convert `.c3d` to `.trc` and then run OpenSim model fitting based on the settings in the config file.
 
+#### Visualising OpenSim solves
 
+The OpenSim solves can be rendered back over the images using the `renderOpensim` tool from `mc_reconstruction`. Get hold of the config file, update it with the relevant settings, and then simply run the tool. The tool can render into a window, or headless into a video file.
+
+```bash
+cd ~/data/biocv-final/P03_CMJM_01
+cp /path/to/mc_dev/mc_reconstruction/configs/renderOsim.cfg .
+/path/to/mc_dev/mc_reconstruction/build/optimised/bin/renderOpensim renderOsim.cfg
+```
