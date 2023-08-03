@@ -232,3 +232,5 @@ cd ~/data/biocv-final/P03_CMJM_01
 cp /path/to/mc_dev/mc_reconstruction/configs/renderOsim.cfg .
 /path/to/mc_dev/mc_reconstruction/build/optimised/bin/renderOpensim renderOsim.cfg
 ```
+Note: You will need to obtain the `.vtp` geometry files from OpenSim, and then convert those files to `.obj`. We did this conversion much as (VTK-OBJ)[https://github.com/lodeguns/VTK-OBJ].
+
