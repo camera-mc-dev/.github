@@ -2,7 +2,7 @@
 
 [CAMERA](www.camera.ac.uk) is the Centre for the Analysis of Motion, Entertainment Research and Applications at the University of Bath.
 
-The `camera-mc-dev` organisation on Github is where we have made available a number of repositories relating to our research on markerless motion capture.
+The `camera-mc-dev` organisation on Github is where we have made available a number of repositories relating to our research on markerless motion capture and multi camera computer vision.
 
 These tools are being made available to allow researchers to fully exploit our [BioCV](??) dataset, which provides synchronised video, high quality motion capture, forceplate data and photogrammetry scans for all 15 participants.
 
