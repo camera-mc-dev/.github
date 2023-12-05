@@ -1,6 +1,43 @@
 # Markerless motion capture pipeline
 
-## Installation
+## Install using Docker
+
+Using Docker is a convenient approach _if you don't care about the visualisation tools_ and are happy that any visualisation is done "headless" and renders to video/image files. That is probably fine in many cases but could be a bit tricky when following the calibration process. There are (ways of getting GUI while inside a Docker)[https://www.howtogeek.com/devops/how-to-run-gui-applications-in-a-docker-container/], but, that is an excercise currently left to the reader.
+
+Navigate to an appropriate part of your computer's filesystem, create a `data` directory, clone the `mc_base` repo, and all other pipeline repositories, then retreat to the pipeline directory:
+
+```bash
+cd /where/you/want/to/put/the/pipeline
+mkdir data
+git clone git@github.com:camera-mc-dev/mc_base mc_dev
+cd mc_dev
+bash cloneMocapRepos.sh
+cd ..
+```
+
+Next, link the appropriate Dockerfile into your `pipeline` root directory. There are 2 variants, one for using `OpenPose` and one for use of `MMPose`, and build the container
+
+```bash
+ln -s docker/mocap-pipeline-mmpose/Dockerfile .
+docker build -t camera-mc/pipeline-mmpose .
+```
+
+or
+
+```bash
+ln -s docker/mocap-pipeline-openpose/Dockerfile .
+docker build -t camera-mc/pipeline-openpose .
+```
+
+You can then put relevant data for processing under `/where/you/want/to/put/the/pipeline/data` and run the container interactively, mounting the data dir inside the container:
+
+```bash
+docker run --rm -it -v data:/data -v camera-mc/pipeline-openpose
+```
+
+
+
+## Install "properly"
 
 ### Getting the software
 
