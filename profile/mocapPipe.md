@@ -2,7 +2,7 @@
 
 ## Install using Docker
 
-Using Docker is a convenient approach _if you don't care about the visualisation tools_ and are happy that any visualisation is done "headless" and renders to video/image files. That is probably fine in many cases but could be a bit tricky when following the calibration process. There are (ways of getting GUI while inside a Docker)[https://www.howtogeek.com/devops/how-to-run-gui-applications-in-a-docker-container/], but, that is an excercise currently left to the reader.
+Using Docker is a convenient approach _if you don't care about the visualisation tools_ and are happy that any visualisation is done "headless" and renders to video/image files. That is probably fine in many cases but could be a bit tricky when following the calibration process. There are [ways of getting GUI while inside a Docker](https://www.howtogeek.com/devops/how-to-run-gui-applications-in-a-docker-container/), but, that is an excercise currently left to the reader.
 
 Navigate to an appropriate part of your computer's filesystem, create a `data` directory, clone the `mc_base` repo, and all other pipeline repositories, then retreat to the pipeline directory:
 
