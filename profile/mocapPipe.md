@@ -32,7 +32,7 @@ docker build -t camera-mc/pipeline-openpose .
 You can then put relevant data for processing under `/where/you/want/to/put/the/pipeline/data` and run the container interactively, mounting the data dir inside the container:
 
 ```bash
-docker run --rm -it -v data:/data -v camera-mc/pipeline-openpose
+docker run -it --mount type=bind,source="$(pwd)"/data,target=/data camera-mc/pipeline-openpose
 ```
 
 
