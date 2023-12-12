@@ -15,18 +15,20 @@ bash cloneMocapRepos.sh
 cd ..
 ```
 
-Next, link the appropriate Dockerfile into your `pipeline` root directory. There are 2 variants, one for using `OpenPose` and one for use of `MMPose`, and build the container:
+
+Next, link the appropriate Dockerfile into your `pipeline` root directory. There are 2 variants, one for using `OpenPose` and one for use of `MMPose`, and build the container. NOTE: The containers make use of the `DOCKER_USER` feature to avoid doing computations as root. You can control the name, uid and gid of the user - this example will create the user so it matches the user that builds the container.
+
 
 ```bash
 ln -s docker/mocap-pipeline-mmpose/Dockerfile .
-docker build -t camera-mc/pipeline-mmpose .
+docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --build-arg DOCKER_USER=`whoami` -t camera-mc/pipeline-mmpose .
 ```
 
 or
 
 ```bash
 ln -s docker/mocap-pipeline-openpose/Dockerfile .
-docker build -t camera-mc/pipeline-openpose .
+docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) --build-arg DOCKER_USER=`whoami` -t camera-mc/pipeline-openpose .
 ```
 
 You can then put relevant data for processing under `/where/you/want/to/put/the/pipeline/data` and run the container interactively, mounting the data dir inside the container:
