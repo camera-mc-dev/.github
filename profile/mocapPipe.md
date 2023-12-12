@@ -48,17 +48,20 @@ cd /where/you/want/to/put/the/code
 git clone git@github.com:camera-mc-dev/mc_base mc_dev
 ```
 
-### Helper script
+### Helper script 
+For the markerless motion capture pipeline, there is a python script that will try to do most of what the openpose Dockerfile above does (pipeline + OpenCV + OpenPose + OpenSim + other deps). It assumes an Ubuntu 22.04 system.
 
-For the markerless motion capture pipeline, there is a python script that will try to do most of what the openpose Dockerfile above does,
-including getting the relevant `mc_dev` repositories, dependencies, OpenPose and OpenSim. Note that it assumes an Ubuntu 22.04 system.
+Most of the dependencies will be installed through the apt package manager, but there are a few that will be build manually. Those will be downloaded to a directory specified at the start of the script, so be sure to check that.
 
-First, edit the script to set the paths for where you want to pull, build and install dependencies, then invoke the script from the `mc_dev` directory:
+Once you've checked the install script, invoke it from the `mc_dev` directory:
 
 ```
 cd mc_dev
 python3 buildHelpers/pipeline-openpose.py
 ```
+
+The longest parts of the build will be OpenCV, OpenPose and OpenSim. Note that the install script is not "clever" in any way, so if your machine has special ways to install things, special restrictions, more interesting CUDA installs, whatever - be prepared for having to go in and do specific parts by hand.
+
 ### Doing it all by hand
 
 Clone the relevant `mc_` repositories:
@@ -72,20 +75,62 @@ bash cloneMocapRepos.sh
 
 For more details, see the documentation for [mc_core](https://github.com/camera-mc-dev/mc_core) and [mc_reconstruction](https://github.com/camera-mc-dev/mc_reconstruction), [mc_opensim](https://github.com/camera-mc-dev/mc_opensim)
 
-The following script _might_ do most of the work for you, assuming an Apt/Ubuntu based system:
+You can install most dependencies through your package manager, e.g. Ubuntu:
 
 ```bash
-python3 getMocapDeps.py
+sudo apt install -y \
+	   libsfml-dev \
+	   libglew-dev \
+	   libfreetype-dev \
+	   libegl-dev \
+	   libeigen3-dev \
+	   libboost-filesystem-dev \
+	   libmagick++-dev \
+	   libconfig++-dev \
+	   libsnappy-dev \
+	   libceres-dev \
+	   libavformat-dev \
+	   libavcodec-dev \
+	   libavutil-dev \
+	   libswscale-dev \
+	   ffmpeg \
+	   libncurses-dev \
+	   libassimp-dev \
+	   scons \
+	   pandoc
+```
+Some of the following dependencies will benefit from or explicitly ask for mkl, so you probably also want:
+
+```
+  sudo apt-get -y install intel-mkl-full libmkl-dev
 ```
 
+If you've not already done it, you might want to setup and install things like Cuda before you build OpenCV. The `mc_dev` tools for markerless mocap don't use CUDA themselves, but you'll probably want to use a pose detector which will. We like to do it through the [package manager approach](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#package-manager-installation).
 
+Then there's a few things not in the package manager.
+
+  - OpenCV: You could do it with the package manager, but we tend to build ourselves to get all the contrib stuff, and non-free things. Indeed, `mc_dev` probably wont compile if OpenCV is not built with the non-free stuff. You also can make sure you build it with Cuda, and OpenMP, and other nice things. Definitely make sure you enable the "archaic" pkgConfig options. TLDR: Be sure to use `-DOPENCV_ENABLE_NONFREE=ON -DOPENCV_GENERATE_PKGCONFIG=ON`
+  - [HighFive](https://github.com/BlueBrain/HighFive): Is a tool we've used at times for HDF5 files.
+  - [nano flann](https://github.com/jlblancoc/nanoflann) : is a useful tool. Checkout commit d804d14325a7fcefc111c32eab226d15349c0cca or you may encounter compile errors with `mc_core`
+  - [EZC3D](https://github.com/pyomeca/ezc3d.git): Used for reading and writing `.c3d` files
+  - [OpenSim](https://github.com/opensim-org/opensim-core.git): OpenSim have a neat build script now. We've got a modified version of it which allows us to control where it gets installed (because you don't always want it in your home directory!). You can find it under `mc_reconstruction/scripts/` 
 
 ### Building
 
-Assuming everything is properly installed to standard locations:
+Unless you've done something non-standard, the build configuration wont need to be adjusted very much. Update the paths for OpenSim in `mc_reconstruction/mcdev_recon_config.py`, and if needs be, the paths in `mc_core/mcdev_core_config.py`. It should be pretty obvious what to change.
+
+To actually build everything, the easiest way is just:
 
 ```bash
-scons mc_reconstruction/build/optimised/ -j8
+cd mc_dev
+scons -j8
+```
+
+If you want to put all the binaries in a nice install location:
+
+```bash
+cd mc_dev
+scons -j8 install=True installDir=/opt/mc_bin
 ```
 
 ## Running on BioCV
