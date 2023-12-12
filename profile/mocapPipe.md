@@ -53,7 +53,7 @@ git clone git@github.com:camera-mc-dev/mc_base mc_dev
 For the markerless motion capture pipeline, there is a python script that will try to do most of what the openpose Dockerfile above does,
 including getting the relevant `mc_dev` repositories, dependencies, OpenPose and OpenSim. Note that it assumes an Ubuntu 22.04 system.
 
-First, edit the script, then call it from the `mc_dev` directory:
+First, edit the script to set the paths for where you want to pull, build and install dependencies, then invoke the script from the `mc_dev` directory:
 
 ```
 cd mc_dev
