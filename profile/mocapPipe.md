@@ -15,7 +15,7 @@ bash cloneMocapRepos.sh
 cd ..
 ```
 
-Next, link the appropriate Dockerfile into your `pipeline` root directory. There are 2 variants, one for using `OpenPose` and one for use of `MMPose`, and build the container
+Next, link the appropriate Dockerfile into your `pipeline` root directory. There are 2 variants, one for using `OpenPose` and one for use of `MMPose`, and build the container:
 
 ```bash
 ln -s docker/mocap-pipeline-mmpose/Dockerfile .
@@ -37,15 +37,31 @@ docker run -it --gpus all --mount type=bind,source="$(pwd)"/data,target=/data ca
 
 
 
-## Install "properly"
+## Install "properly"/"traditionally"
 
-### Getting the software
-
-First, clone the `mc_base` repository, and then the other needed repositories.
+First, clone the `mc_base` repository.
 
 ```bash
 cd /where/you/want/to/put/the/code
 git clone git@github.com:camera-mc-dev/mc_base mc_dev
+```
+
+### Helper script
+
+For the markerless motion capture pipeline, there is a python script that will try to do most of what the openpose Dockerfile above does,
+including getting the relevant `mc_dev` repositories, dependencies, OpenPose and OpenSim. Note that it assumes an Ubuntu 22.04 system.
+
+First, edit the script, then call it from the `mc_dev` directory:
+
+```
+cd mc_dev
+python3 buildHelpers/pipeline-openpose.py
+```
+### Doing it all by hand
+
+Clone the relevant `mc_` repositories:
+
+```
 cd mc_dev
 bash cloneMocapRepos.sh
 ```
